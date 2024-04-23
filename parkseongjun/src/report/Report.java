@@ -1,12 +1,12 @@
-package co.yedam;
+package report;
 
 public class Report {
 	private int postNumber;
 	private int reportNumber;
 	private String reportTitle;
 	private String reportWrite;
-	private String mem_id;
-	private int report_hand;
+	private String memId;
+	private int reportHand;
 	public int getPostNumber() {
 		return postNumber;
 	}
@@ -31,16 +31,17 @@ public class Report {
 	public void setReportWrite(String reportWrite) {
 		this.reportWrite = reportWrite;
 	}
-	public String getMem_id() {
-		return mem_id;
+	public String getMemId() {
+		return memId;
 	}
-	public void setMem_id(String mem_id) {
-		this.mem_id = mem_id;
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
-	public int getReport_hand() {
-		return report_hand;
+	public int getReportHand() {
+		return reportHand;
 	}
-	public void setReport_hand(int report_hand) {
-		this.report_hand = report_hand;
+	public void setReportHand(int reportHand) {
+		this.reportHand = reportHand;
 	}
+	
 }

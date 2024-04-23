@@ -1,4 +1,4 @@
-package co.yedam;
+package member;
 
 public class Member {
 	private int memNumber ;
@@ -7,6 +7,18 @@ public class Member {
 	private String memId;
 	private String memPw;
 	private String memNickname;
+	private int manager;
+	public int getManager() {
+		return manager;
+	}
+	public void setManager(int manager) {
+		this.manager = manager;
+	}
+	@Override
+	public String toString() {
+		return "Member [회원번호 : " + memNumber + ", 이름 : " + memName + ", 생년월일 : " + memBirthday + ", 아이디 : "
+				+ memId + ", 비밀번호 : =" + memPw + ", 별명 : " + memNickname +"]";
+	}
 	public int getMemNumber() {
 		return memNumber;
 	}

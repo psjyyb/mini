@@ -1,7 +1,12 @@
-package co.yedam;
+package post;
 
 public class Post {
 	private int memNumber;
+	private int postNumber;
+	private String postTitle;
+	private String postContent;
+	private String postKind;
+	
 	public int getMemNumber() {
 		return memNumber;
 	}
@@ -32,10 +37,5 @@ public class Post {
 	public void setPostKind(String postKind) {
 		this.postKind = postKind;
 	}
-	private int postNumber;
-	private String postTitle;
-	private String postContent;
-	private String postKind;
-	
 }
 
