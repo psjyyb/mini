@@ -45,8 +45,10 @@ public class MemberDao {
 		return false;
 	}
 
+	
 	// 회원가입 기능
-	public boolean addMem(Member member) {
+	public boolean addMem(Member member) {		
+		
 		getConn();
 		String sql = "insert into member (mem_number,mem_name,mem_birthday,mem_id,mem_pw,mem_nickname,manager)\r\n"
 				+ " values (member_seq.nextval,?,?,?,?,?,?)";
@@ -71,13 +73,13 @@ public class MemberDao {
 	// 회원정보 수정
 	public boolean reMem(Member member) {
 		getConn();
-		String sql = "update member set mem_name = ? ,mem_pw = ?,manager = ?" + " mem_nickname = ? where mem_id = ? ";
+		String sql = "update member set mem_name = ? ,mem_pw = ?" + " ,mem_nickname = ? where mem_id = ? ";
 		try {
 			psmt = conn.prepareStatement(sql);
+			psmt.setString(4,member.getMemId());
 			psmt.setString(1, member.getMemName());
 			psmt.setString(2, member.getMemPw());
 			psmt.setString(3, member.getMemNickname());
-			psmt.setString(4, member.getMemId());
 			int r = psmt.executeUpdate();
 			if (r > 0) {
 				return true;
@@ -113,12 +115,14 @@ public class MemberDao {
 	}
 
 	// 관리자 -> 특정회원 조회
-	public List<Member> check() {
+	public List<Member> check(int num) {
 		getConn();
 		List<Member> list = new ArrayList<Member>();
-		String sql = "select * from member where mem_number = ? ";
+		String sql = "select mem_number, mem_name, mem_birthday, mem_id, mem_pw, mem_nickname"
+				+ " from member where mem_number = ? ";
 		try {
 			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1,num);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
 				Member member = new Member();

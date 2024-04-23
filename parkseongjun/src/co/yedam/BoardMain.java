@@ -11,9 +11,9 @@ public class BoardMain {
 		MemberDao mDao = new MemberDao();
 		Member member = new Member();
 		while(run) {
-			System.out.println("-----------------------------------------");
+			System.out.println("-----------------------------------------------------");
 			System.out.println("1.로그인 2.회원가입 3.회원정보 수정 4.종료및로그아웃 5.관리자계정");
-			System.out.println("-----------------------------------------");
+			System.out.println("-----------------------------------------------------");
 			System.out.print("입력 > ");
 			int choose = Integer.parseInt(sc.nextLine());
 			switch(choose) {
@@ -24,6 +24,26 @@ public class BoardMain {
 				String pw = sc.nextLine();
 				if(mDao.login(id, pw)) {
 					System.out.println("로그인 되었습니다.");
+					System.out.println("--------------------------------");
+					System.out.println("1.게시글쓰기 2.게시글삭제 3.게시글목록");
+					System.out.println("--------------------------------");
+					choose =Integer.parseInt(sc.nextLine());
+					switch(choose) {
+					case 1 :
+						System.out.println("글쓰기 메뉴 입니다.");
+						System.out.print("제목 > ");
+						String title = sc.nextLine();
+						System.out.print("내용 > ");
+						String content = sc.nextLine();
+						break;
+					case 2 :
+						break;
+					case 3 :
+						break;
+					}
+					
+				}else {
+					System.out.println("아이디,비밀번호를 확인해주세요.");
 				}
 				break;
 			case 2 :
@@ -40,7 +60,6 @@ public class BoardMain {
 				String nickName = sc.nextLine();
 				System.out.print("관리자 > ");
 				int manager = Integer.parseInt(sc.nextLine());
-				
 				member.setMemName(name);
 				member.setMemBirthday(birthday);
 				member.setMemId(id);
@@ -57,17 +76,16 @@ public class BoardMain {
 				System.out.println("회원정보 수정 메뉴입니다");
 				System.out.print("아이디 > ");
 				id = sc.nextLine();
-				System.out.println("변경된이름 > ");
+				System.out.print("변경된이름 > ");
 				name = sc.nextLine();
-				System.out.println("변경된 비밀번호 > ");
+				System.out.print("변경된 비밀번호 > ");
 				pw =sc.nextLine();
-				System.out.println("변경된 별명 > ");
+				System.out.print("변경된 별명 > ");
 				nickName = sc.nextLine();
 				member.setMemId(id);
 				member.setMemPw(pw);
 				member.setMemName(name);
 				member.setMemNickname(nickName);
-				
 				if(mDao.reMem(member)) {
 					System.out.println("수정이 완료되었습니다");
 				}else {
@@ -75,6 +93,7 @@ public class BoardMain {
 				}
 				break;
 			case 4 :
+				System.out.println("프로그램을 종료합니다");
 				run=false;
 				break;
 			case 5 :
@@ -92,7 +111,10 @@ public class BoardMain {
 					choose = Integer.parseInt(sc.nextLine());
 					switch(choose) {
 					case 1 :
-						List<Member> members = mDao.check();
+						System.out.print("조회하실 회원번호 > ");
+						int num = Integer.parseInt(sc.nextLine());
+						List<Member> members = mDao.check(num);
+						member.setMemNumber(num);
 						for(Member m : members) {
 							System.out.println(m.toString());
 						}
@@ -111,5 +133,4 @@ public class BoardMain {
 			}
 		}
 	}
-
 }

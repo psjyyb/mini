@@ -16,8 +16,7 @@ public class Member {
 	}
 	@Override
 	public String toString() {
-		return "Member [회원번호 : " + memNumber + ", 이름 : " + memName + ", 생년월일 : " + memBirthday + ", 아이디 : "
-				+ memId + ", 비밀번호 : =" + memPw + ", 별명 : " + memNickname +"]";
+		return String.format("%2d %5s %8s %8s %8s %5s",memNumber,memName,memBirthday,memId,memPw,memNickname);
 	}
 	public int getMemNumber() {
 		return memNumber;
