@@ -69,10 +69,11 @@ public class PostDao {
 		 int set = Integer.parseInt(sc.nextLine());
 		if (pDao.postDelete(set)) {
 			System.out.println("정상 삭제");
+			 return;
 		} else {
 			System.out.println("예외 발생");
+		} return;
 		}
-	}
 	// 게시글 삭제
 	public boolean postDelete(int seq) {
 		getConn();

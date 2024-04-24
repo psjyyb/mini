@@ -23,6 +23,8 @@ public class BoardMain {
 			switch (choose) {
 			case 1:
 				mDao.login2();
+				boolean run2 = true;
+				while(run2) {
 				choose = Integer.parseInt(sc.nextLine());
 				switch (choose) {
 				case 1:
@@ -33,6 +35,7 @@ public class BoardMain {
 					break;
 				case 3:
 					break;
+				}
 				}
 				break;
 			case 2:
