@@ -210,6 +210,9 @@ public class PostDao {
 				 }
 				 break;
 			 case 3 :
+				 if(rDao.good()) {
+					 System.out.println("좋아요 !");
+				 }
 				 break;
 			 case 4 :
 				 run = false;
