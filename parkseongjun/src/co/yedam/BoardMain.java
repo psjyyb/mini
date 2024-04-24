@@ -2,7 +2,7 @@ package co.yedam;
 
 import java.util.*;
 import member.*;
-
+import post.*;
 public class BoardMain {
 
 	public static void main(String[] args) {
@@ -10,6 +10,9 @@ public class BoardMain {
 		boolean run = true;
 		MemberDao mDao = new MemberDao();
 		Member member = new Member();
+		PostDao pDao = new PostDao();
+		
+		
 		while(run) {
 			System.out.println("-----------------------------------------------------");
 			System.out.println("1.로그인 2.회원가입 3.회원정보 수정 4.종료및로그아웃 5.관리자계정");
@@ -30,11 +33,22 @@ public class BoardMain {
 					choose =Integer.parseInt(sc.nextLine());
 					switch(choose) {
 					case 1 :
+						Post post = new Post();
 						System.out.println("글쓰기 메뉴 입니다.");
 						System.out.print("제목 > ");
 						String title = sc.nextLine();
+						System.out.print("카테고리 >");
+						String kind = sc.nextLine();
 						System.out.print("내용 > ");
 						String content = sc.nextLine();
+						post.setPostTitle(title);
+						post.setPostKind(kind);
+						post.setPostContent(content);
+						if(pDao.postWrite(post)) {
+							System.out.println("게시글이 저장되었습니다. 게시글 번호 :"+post.getMemNumber());
+						}else {
+							System.out.println("게시글이 저장되지 않았습니다.");
+						}
 						break;
 					case 2 :
 						break;
