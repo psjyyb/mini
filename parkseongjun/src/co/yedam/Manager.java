@@ -36,8 +36,9 @@ public class Manager {
 			case 3:
 				break;
 			case 4:
-				break;}
-		}else {
+				break;
+			}
+		} else {
 			System.out.println("관리자가 아닙니다");
 		}
 	}

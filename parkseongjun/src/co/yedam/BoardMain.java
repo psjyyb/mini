@@ -10,7 +10,6 @@ public class BoardMain {
 		Scanner sc = new Scanner(System.in);
 		boolean run = true;
 		MemberDao mDao = new MemberDao();
-		Member member = new Member();
 		PostDao pDao = new PostDao();
 		Manager ma = new Manager();
 
@@ -22,21 +21,8 @@ public class BoardMain {
 			int choose = Integer.parseInt(sc.nextLine());
 			switch (choose) {
 			case 1:
-				mDao.login2();
-				boolean run2 = true;
-				while(run2) {
-				choose = Integer.parseInt(sc.nextLine());
-				switch (choose) {
-				case 1:
-					pDao.postWrite2();
-					break;
-				case 2:
-					pDao.PostDelete2();
-					break;
-				case 3:
-					break;
-				}
-				}
+				mDao.login2();	
+				run=true;
 				break;
 			case 2:
 				mDao.addMem2();
@@ -45,14 +31,14 @@ public class BoardMain {
 				mDao.reMem2();
 				break;
 			case 4:
+				System.out.println("프로그램을 종료합니다");
 				run = false;
 				break;
 			case 5:
-					ma.sys();
-				} 
-				break;
+				ma.sys();
 			}
-		System.out.println("프로그램을 종료합니다");
+			break;
 		}
+		
 	}
-
+}
