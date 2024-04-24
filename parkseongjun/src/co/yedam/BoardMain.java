@@ -34,6 +34,7 @@ public class BoardMain {
 					switch(choose) {
 					case 1 :
 						Post post = new Post();
+						
 						System.out.println("글쓰기 메뉴 입니다.");
 						System.out.print("제목 > ");
 						String title = sc.nextLine();
@@ -44,11 +45,9 @@ public class BoardMain {
 						post.setPostTitle(title);
 						post.setPostKind(kind);
 						post.setPostContent(content);
-						if(pDao.postWrite(post)) {
-							System.out.println("게시글이 저장되었습니다. 게시글 번호 :"+post.getMemNumber());
-						}else {
-							System.out.println("게시글이 저장되지 않았습니다.");
-						}
+						int set = pDao.postWrite(post) ;
+							System.out.println("게시글이 저장되었습니다. 게시글 번호 :"+set);
+						
 						break;
 					case 2 :
 						break;

@@ -20,23 +20,31 @@ public class PostDao {
 		}
 	}
 	// 게시글 쓰기 
-	public boolean postWrite(Post post) {
+	public int postWrite(Post post) {
 		getConn();
+		String sql1 = "select post_seq.nextval from dual";
 		String sql = "insert into post (post_number,post_title,post_kind,post_content)"
-				+  " values (post_seq.nextval,?,?,?)";
+				+  " values (?,?,?,?)";
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1,post.getPostTitle());
-			psmt.setString(2,post.getPostKind());
-			psmt.setString(3,post.getPostContent());
-			int r = psmt.executeUpdate();
-			if(r>0) {
-				return true;
+			psmt = conn.prepareStatement(sql1);
+			rs= psmt.executeQuery();
+			int seq = -1;
+			if(rs.next()) {
+				seq = rs.getInt(1);
 			}
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seq);
+			psmt.setString(2,post.getPostTitle());
+			psmt.setString(3,post.getPostKind());
+			psmt.setString(4,post.getPostContent());
+			int r = psmt.executeUpdate();
+			return seq;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} return false;
+		}
+		return 0; 
 	}
+	
 	// 게시글 삭제
 	public void postDelete() {
 		getConn();
