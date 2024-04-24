@@ -5,6 +5,10 @@ public class Reply {
 	private int replyNumber;
 	private String replyWrite;
 	private int good;
+	@Override
+	public String toString() {
+		return "댓글번호 : " + replyNumber + " 댓글 :" + replyWrite;
+	}
 	public int getPostNumber() {
 		return postNumber;
 	}

@@ -12,6 +12,7 @@ public class MemberDao {
 	Member member = new Member();
 	Scanner sc = new Scanner(System.in);
 	public static String loginId;
+	public static int loginNo;
 
 	private void getConn() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -35,9 +36,9 @@ public class MemberDao {
 		if (run) {
 			System.out.println("로그인 되었습니다.");
 			while(run) {
-			System.out.println("--------------------------------");
+			System.out.println("----------------------------------------");
 			System.out.println("1.게시글쓰기 2.게시글삭제 3.게시글목록 4.로그아웃");
-			System.out.println("--------------------------------");
+			System.out.println("----------------------------------------");
 			System.out.print("입력 > ");
 			int choose = Integer.parseInt(sc.nextLine());
 			switch (choose) {
@@ -64,7 +65,7 @@ public class MemberDao {
 	// 로그인 기능
 	public boolean login(String id, String pw) {
 		getConn();
-		String sql = "select mem_id,mem_pw from member where mem_id = ? and mem_pw = ?";
+		String sql = "select mem_id,mem_pw,mem_number from member where mem_id = ? and mem_pw = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
@@ -73,9 +74,10 @@ public class MemberDao {
 			while (rs.next()) {
 				member.setMemId(rs.getString("mem_id"));
 				member.setMemPw(rs.getString("mem_pw"));
+				member.setMemNumber(rs.getInt("mem_number"));
 				if (member.getMemId().equals(id) && member.getMemPw().equals(pw)) {
 					loginId = id;
-					
+					loginNo = rs.getInt("mem_number");
 					return true;
 				} else {
 					System.out.println("계정을 확인해 주세요.");
@@ -130,7 +132,7 @@ public class MemberDao {
 			psmt.setString(4, member.getMemPw());
 			psmt.setString(5, member.getMemNickname());
 			psmt.setInt(6, member.getManager());
-			int r = psmt.executeUpdate();
+			int r = psmt.executeUpdate();	
 			if (r > 0) {
 				return true;
 			}

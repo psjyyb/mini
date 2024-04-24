@@ -25,7 +25,7 @@ public class BoardMain {
 				run=true;
 				break;
 			case 2:
-				mDao.addMem2();
+				mDao.addMem2(); 
 				break;
 			case 3:
 				mDao.reMem2();
