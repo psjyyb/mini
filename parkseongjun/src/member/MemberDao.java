@@ -8,6 +8,8 @@ public class MemberDao {
 	PreparedStatement psmt;
 	ResultSet rs;
 	Member member = new Member();
+	Scanner sc = new Scanner(System.in);
+
 
 	private void getConn() {
 		String url = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -20,6 +22,20 @@ public class MemberDao {
 		}
 	}
 
+	public void login2() {
+		MemberDao mDao = new MemberDao();
+		System.out.print("아이디를 입력해주세요 > ");
+		String id = sc.nextLine();
+		System.out.print("비밀번호를 입력해주세요 > ");
+		String pw = sc.nextLine();
+		if(mDao.login(id, pw)) {
+			System.out.println("로그인 되었습니다.");
+			System.out.println("--------------------------------");
+			System.out.println("1.게시글쓰기 2.게시글삭제 3.게시글목록");
+			System.out.println("--------------------------------");
+			
+	}
+	}
 	// 로그인 기능
 	public boolean login(String id, String pw) {
 		getConn();
@@ -45,7 +61,33 @@ public class MemberDao {
 		return false;
 	}
 
-	
+	public void addMem2() {
+		MemberDao mDao = new MemberDao();
+		System.out.println("회원가입 메뉴입니다");
+		System.out.print("이름 > ");
+		String name = sc.nextLine();
+		System.out.print("생년월일 > ");
+		String birthday = sc.nextLine();
+		System.out.print("아이디 > ");
+		String id = sc.nextLine();
+		System.out.print("비밀번호 > ");
+		String pw = sc.nextLine();
+		System.out.print("별명 > ");
+		String nickName = sc.nextLine();
+		System.out.print("관리자 > ");
+		int manager = Integer.parseInt(sc.nextLine());
+		member.setMemName(name);
+		member.setMemBirthday(birthday);
+		member.setMemId(id);
+		member.setMemPw(pw);
+		member.setMemNickname(nickName);
+		member.setManager(manager);
+		if(mDao.addMem(member)) {
+			System.out.println("회원가입이 완료되었습니다");
+		}else {
+			System.out.println("회원가입이 정상적이지 않습니다.");
+		}			
+	}
 	// 회원가입 기능
 	public boolean addMem(Member member) {		
 		
@@ -69,7 +111,29 @@ public class MemberDao {
 		}
 		return false;
 	}
-
+		
+	
+	public void reMem2() {
+		MemberDao mDao = new MemberDao();
+		System.out.println("회원정보 수정 메뉴입니다");
+		System.out.print("아이디 > ");
+		String id = sc.nextLine();
+		System.out.print("변경된이름 > ");
+		String name = sc.nextLine();
+		System.out.print("변경된 비밀번호 > ");
+		String pw =sc.nextLine();
+		System.out.print("변경된 별명 > ");
+		String nickName = sc.nextLine();
+		member.setMemId(id);
+		member.setMemPw(pw);
+		member.setMemName(name);
+		member.setMemNickname(nickName);
+		if(mDao.reMem(member)) {
+			System.out.println("수정이 완료되었습니다");
+		}else {
+			System.out.println("올바르지 않은 수정입니다.");
+		}
+	}
 	// 회원정보 수정
 	public boolean reMem(Member member) {
 		getConn();
