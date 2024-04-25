@@ -28,7 +28,7 @@ public class ReportDao {
 
 	public boolean report() {
 		getConn();
-		String sql = "update post set report_hand = 1 where report_hand = 0 and post_number = ?";
+		String sql = "update post set report_hand = 1 where post_number = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, PostDao.writeNo);
@@ -60,21 +60,7 @@ public class ReportDao {
 		}
 		return list;
 	}
-	public void rps (){
-		ReportDao tDao = new ReportDao();
-		List<Report> lists = tDao.ReportList();
-				for(Report rpt : lists) {
-					System.out.println(rpt.toReport());
-				}
-				System.out.println("게시물을 열람 하실려면 1 나가기는 2 번을 눌러주세요.");
-				System.out.print("입력 > ");
-				int choose = Integer.parseInt(sc.nextLine());
-				if(choose==1) {
-					tDao.recon2();
-				}else {
-					return;
-				}
-	}
+
 	List<Post> recon(){
 		getConn();
 		List<Post> list = new ArrayList<Post>();

@@ -3,6 +3,9 @@ package post;
 import java.util.List;
 import java.util.Scanner;
 
+import reply.*;
+import report.ReportDao;
+
 public class PostProc {
 	int logid;
 	Scanner sc = new Scanner(System.in);
@@ -15,9 +18,9 @@ public class PostProc {
 	public void exe() {
 		boolean run = true;
 		while (run) {
-			System.out.println("----------------------------------------");
+			System.out.println("---------------------------------------------------");
 			System.out.println("1.게시글쓰기 2.게시글삭제 3.나의 게시글 4.게시글목록 5.로그아웃");
-			System.out.println("----------------------------------------");
+			System.out.println("---------------------------------------------------");
 			System.out.print("입력 > ");
 			int choose = Integer.parseInt(sc.nextLine());
 			switch (choose) {
@@ -59,7 +62,7 @@ public class PostProc {
 		int set = pDao.postWrite(post);
 		System.out.println("게시글이 저장되었습니다. 게시글 번호 :" + set);
 	} // end
-
+	// 나의 게시글 삭제
 	public void postDelete2() {
 		System.out.print("게시글번호 >> ");
 		int set = Integer.parseInt(sc.nextLine());
@@ -70,11 +73,11 @@ public class PostProc {
 			System.out.println("다른 회원의 게시글을 삭제할수 없습니다.");
 		}
 	} // end
-
+   // 나의 게시글 목록
 	public void myPost1() {
 		List<Post> posts = pDao.mypost();
 		System.out.println("게시글 번호   게시글 제목");
-		System.out.println("-------------------");
+		System.out.println("---------------------");
 		for (Post ps : posts) {
 			System.out.println(ps.toString());
 		}
@@ -87,7 +90,7 @@ public class PostProc {
 			return;
 		}
 	} // end
-
+	//게시글 수정
 	public void postUpdate() {
 		System.out.print("수정하실 게시글 번호 > ");
 		int set = Integer.parseInt(sc.nextLine());
@@ -100,8 +103,78 @@ public class PostProc {
 		post.setMemNumber(set);
 //		pDao.postUpdate(null)
 	}
+	// 게시물 목록
+	public void post2() {
+		PostDao pDao = new PostDao();
+		List<Post> posts = pDao.post();
+		System.out.println("게시글 번호   게시글 제목");
+		System.out.println("-------------------");
+		for (Post ps : posts) {
+			System.out.println(ps.toString());
+		}
+		System.out.println("게시물을 열람 하실려면 1 나가기는 2 번을 눌러주세요.");
+		System.out.print("입력 > ");
+		int choose = Integer.parseInt(sc.nextLine());
+		if (choose == 1) {
+			post3();
+		} else {
+			return;
+		}
+	}
+	// 게시물 상세보기 , 댓글 , 좋아요 ,신고 
+	public void post3() {
+		PostDao pDao = new PostDao();
+		ReplyDao rDao = new ReplyDao();
+		ReportDao tDao = new ReportDao();
+		ReplyProc pr = new ReplyProc();
+		List<Post> posts = pDao.conten();
+		for (Post ps : posts) {
+			System.out.println(ps.toAll() + "댓글 ");
+		}
+		List<Reply> replys = rDao.viewReply(PostDao.writeNo);
+		for (Reply rp : replys) {
+			System.out.println(rp.toString());
+		}
+		System.out.println("좋아요 수 : " + rDao.goodNum());
+		System.out.println("게시물을 신고하시려면 report 를 입력해주세요.");
+		String report = sc.nextLine();
+		if (report.equals("report")) {
+			if (tDao.report()) {
+				System.out.println("신고 완료");
+			} else {
+				System.out.println("신고가 되지않습니다.");
+			}
+		}
+		boolean run = true;
 
-	void post2() {
-
+		while (run) {
+			System.out.println("1.댓글 2.댓글삭제 3.좋아요 4.나가기");
+			System.out.print("입력 > ");
+			int choose = Integer.parseInt(sc.nextLine());
+			switch (choose) {
+			case 1:
+				if (pr.addReply2()) {
+					System.out.println("댓글이 저장되었습니다.");
+				} else {
+					System.out.println("댓글이 저장하지 않았습니다.");
+				}
+				break;
+			case 2:
+				if (pr.deleteReply2()) {
+					System.out.println("댓글이 삭제되었습니다.");
+				} else {
+					System.out.println("자신의 댓글만 삭제 가능합니다.");
+				}
+				break;
+			case 3:
+				if (rDao.good()) {
+					System.out.println("좋아요 !");
+				}
+				break;
+			case 4:
+				run = false;
+				break;
+			}
+		}
 	}
 }

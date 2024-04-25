@@ -57,7 +57,7 @@ public class PostDao {
 		return 0;
 	}
 
-	// 게시글 삭제
+	// 게시글 삭제o
 	public boolean postDelete(int seq) {
 		getConn();
 		String sql = "delete post where post_number = ? and mem_number = ?";
@@ -65,7 +65,7 @@ public class PostDao {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, seq);
-			psmt.setInt(2, member.getMemNumber());
+			psmt.setInt(2, MemberProc.logNum);
 
 			int r = psmt.executeUpdate();
 			if (r > 0) {
@@ -77,7 +77,7 @@ public class PostDao {
 		return false;
 	}
 
-	// 게시글 목록(게시글 번호 선택시 게시글 내용 확인)
+	// 게시글 목록(게시글 번호 선택시 게시글 내용 확인)o
 	List<Post> post() {
 		getConn();
 		List<Post> list = new ArrayList<Post>();
@@ -98,26 +98,8 @@ public class PostDao {
 		}
 		return list;
 	}
-
-	public void post2() {
-		PostDao pDao = new PostDao();
-		List<Post> posts = pDao.post();
-		System.out.println("게시글 번호   게시글 제목");
-		System.out.println("-------------------");
-		for (Post ps : posts) {
-			System.out.println(ps.toString());
-		}
-		System.out.println("게시물을 열람 하실려면 1 나가기는 2 번을 눌러주세요.");
-		System.out.print("입력 > ");
-		int choose = Integer.parseInt(sc.nextLine());
-		if (choose == 1) {
-			pDao.post3();
-		} else {
-			return;
-		}
-
-	}
-
+	
+	// 게시물 상세보기
 	List<Post> conten() {
 		getConn();
 		List<Post> list = new ArrayList<Post>();
@@ -145,83 +127,29 @@ public class PostDao {
 
 	}
 
-	public void post3() {
-		PostDao pDao = new PostDao();
-		ReplyDao rDao = new ReplyDao();
-		ReportDao tDao = new ReportDao();
-		List<Post> posts = pDao.conten();
-		for (Post ps : posts) {
-			System.out.println(ps.toAll() + "댓글 ");
-		}
-		List<Reply> replys = rDao.viewReply(writeNo);
-		for (Reply rp : replys) {
-			System.out.println(rp.toString());
-		}
-		System.out.println("좋아요 수 : " + rDao.goodNum());
-		System.out.println("게시물을 신고하시려면 report 를 입력해주세요.");
-		String report = sc.nextLine();
-		if (report.equals("report")) {
-			if (tDao.report()) {
-				System.out.println("신고 완료");
-			} else {
-				System.out.println("신고가 되지않습니다.");
-			}
-		}
-		boolean run = true;
-
-		while (run) {
-			System.out.println("1.댓글 2.댓글삭제 3.좋아요 4.나가기");
-			System.out.print("입력 > ");
-			int choose = Integer.parseInt(sc.nextLine());
-			switch (choose) {
-			case 1:
-				if (rDao.addReply2()) {
-					System.out.println("댓글이 저장되었습니다.");
-				} else {
-					System.out.println("댓글이 저장하지 않았습니다.");
-				}
-				break;
-			case 2:
-				if (rDao.deleteReply2()) {
-					System.out.println("댓글이 삭제되었습니다.");
-				} else {
-					System.out.println("댓글이 삭제 되지 않았습니다");
-				}
-				break;
-			case 3:
-				if (rDao.good()) {
-					System.out.println("좋아요 !");
-				}
-				break;
-			case 4:
-				run = false;
-				break;
-			}
-		}
-	}
-
+	// 나의 게시글 목록 o
 	List<Post> mypost() {
 		getConn();
-		List<Post> list1 = new ArrayList<Post>();
+		List<Post> list = new ArrayList<Post>();
 		String sql = "select post_number, post_title from post where mem_number = ? order by post_number";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, MemberDao.loginNo);
+			psmt.setInt(1,MemberProc.logNum);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
 				Post post = new Post();
 				post.setPostNumber(rs.getInt("post_number"));
 				post.setPostTitle(rs.getString("post_title"));
 
-				list1.add(post);
+				list.add(post);
 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return list1;
+		return list;
 	}
-
+	// 나의 게시글 수정o
 	public boolean postUpdate(Post post) {
 		getConn();
 
