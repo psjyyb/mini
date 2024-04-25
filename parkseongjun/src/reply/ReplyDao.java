@@ -131,8 +131,6 @@ public class ReplyDao {
 			}else {
 				String sql ="delete good where mem_number = ? and post_number = ?";
 				psmt = conn.prepareStatement(sql);
-				System.out.println(MemberDao.loginNo);
-				System.out.println(PostDao.writeNo);
 				psmt.setInt(1, MemberDao.loginNo);
 				psmt.setInt(2, PostDao.writeNo);
 				int r = psmt.executeUpdate();
@@ -145,5 +143,27 @@ public class ReplyDao {
 		}
 		return false;
 
+	}
+	
+	// 좋아요 수 
+	public int goodNum() {
+		getConn();
+		String sql = "SELECT sum(good_count)\r\n"
+				+ "	from good\r\n"
+				+ " where post_number = ?\r\n";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, PostDao.writeNo);
+			rs = psmt.executeQuery();
+			int gn = 0;
+			if(rs.next()) {
+				gn = rs.getInt(1);
+			}
+			return gn;	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+			return 0;
 	}
 }

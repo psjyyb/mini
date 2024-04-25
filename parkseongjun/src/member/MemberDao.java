@@ -37,7 +37,7 @@ public class MemberDao {
 			System.out.println("로그인 되었습니다.");
 			while(run) {
 			System.out.println("----------------------------------------");
-			System.out.println("1.게시글쓰기 2.게시글삭제 3.게시글목록 4.로그아웃");
+			System.out.println("1.게시글쓰기 2.게시글삭제 3.나의 게시글 4.게시글목록 5.로그아웃");
 			System.out.println("----------------------------------------");
 			System.out.print("입력 > ");
 			int choose = Integer.parseInt(sc.nextLine());
@@ -48,10 +48,13 @@ public class MemberDao {
 			case 2:
 				pDao.PostDelete2();
 				break;
-			case 3:
+			case 3 : 
+				pDao.myPost1();
+				break;
+			case 4:
 				pDao.post2();
 				break;
-			case 4 : 
+			case 5 : 
 				System.out.println("로그아웃합니다");
 				run =false;
 				break;
@@ -234,5 +237,56 @@ public class MemberDao {
 		}
 		return list;
 
+	}
+
+	public void findIdPw() {
+		System.out.print("아이디는 1번 패스워드는 2번을 눌러주세요.");
+		int num = Integer.parseInt(sc.nextLine());
+		if(num==1) {
+			System.out.print("이름 > ");
+			String name = sc.nextLine();
+			System.out.print("생년월일");
+			String day = sc.nextLine();
+			getConn();
+			String sql = "select mem_id from member where mem_name = ? and mem_birthday = ?";
+			try {
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, name);
+				psmt.setString(2, day);
+				rs = psmt.executeQuery();
+				String id = "";
+				if (rs.next()) {
+					id=rs.getString("mem_id");
+					System.out.println("아이디는 "+id+"입니다.");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else if(num==2) {
+			System.out.print("아이디 > ");
+			String id = sc.nextLine();
+			System.out.print("이름 > ");
+			String name = sc.nextLine();
+			System.out.print("생년월일 >");
+			String day = sc.nextLine();
+			getConn();
+			String sql = "select mem_pw from member where mem_id = ? and mem_name = ? and mem_birthday = ?";
+			try {
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, id);
+				psmt.setString(2, name);
+				psmt.setString(3, day);
+				rs = psmt.executeQuery();
+				String pw = "";
+				if (rs.next()) {
+					pw=rs.getString("mem_pw");
+					System.out.println("비밀번호는 "+pw+"입니다.");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("잘못된 입력입니다.");
+		}
 	}
 }

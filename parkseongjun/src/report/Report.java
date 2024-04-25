@@ -5,6 +5,11 @@ public class Report {
 	private int reportNumber;
 	private String reportTitle;
 	private String reportWrite;
+	
+
+	public String toReport() {
+		return String.format("게시글번호 : %3d 게시글 제목 : %8s", postNumber,reportTitle);
+	}
 	private String memId;
 	private int reportHand;
 	public int getPostNumber() {
