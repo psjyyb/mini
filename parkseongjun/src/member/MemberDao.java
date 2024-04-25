@@ -9,7 +9,6 @@ public class MemberDao {
 	Connection conn;
 	PreparedStatement psmt;
 	ResultSet rs;
-	Member member = new Member();
 	Scanner sc = new Scanner(System.in);
 	public static String loginId;
 	public static int loginNo;
@@ -25,48 +24,8 @@ public class MemberDao {
 		}
 	}
 
-	public void login2() {
-		PostDao pDao = new PostDao();
-		MemberDao mDao = new MemberDao();
-		System.out.print("아이디를 입력해주세요 > ");
-		String id = sc.nextLine();
-		System.out.print("비밀번호를 입력해주세요 > ");
-		String pw = sc.nextLine();
-		boolean run = mDao.login(id, pw);
-		if (run) {
-			System.out.println("로그인 되었습니다.");
-			while(run) {
-			System.out.println("----------------------------------------");
-			System.out.println("1.게시글쓰기 2.게시글삭제 3.나의 게시글 4.게시글목록 5.로그아웃");
-			System.out.println("----------------------------------------");
-			System.out.print("입력 > ");
-			int choose = Integer.parseInt(sc.nextLine());
-			switch (choose) {
-			case 1:
-				pDao.postWrite2();
-				break;
-			case 2:
-				pDao.PostDelete2();
-				break;
-			case 3 : 
-				pDao.myPost1();
-				break;
-			case 4:
-				pDao.post2();
-				break;
-			case 5 : 
-				System.out.println("로그아웃합니다");
-				run =false;
-				break;
-			}
-		}
-		}
-			
-		
-	}
-
 	// 로그인 기능
-	public boolean login(String id, String pw) {
+	public Member login(String id, String pw) {
 		getConn();
 		String sql = "select mem_id,mem_pw,mem_number from member where mem_id = ? and mem_pw = ?";
 		try {
@@ -74,51 +33,17 @@ public class MemberDao {
 			psmt.setString(1, id);
 			psmt.setString(2, pw);
 			rs = psmt.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
+				Member member = new Member();
 				member.setMemId(rs.getString("mem_id"));
 				member.setMemPw(rs.getString("mem_pw"));
 				member.setMemNumber(rs.getInt("mem_number"));
-				if (member.getMemId().equals(id) && member.getMemPw().equals(pw)) {
-					loginId = id;
-					loginNo = rs.getInt("mem_number");
-					return true;
-				} else {
-					System.out.println("계정을 확인해 주세요.");
-					return false;
-				}
+				return member;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
-	}
-	
-	public void addMem2() {
-		MemberDao mDao = new MemberDao();
-		System.out.println("회원가입 메뉴입니다");
-		System.out.print("이름 > ");
-		String name = sc.nextLine();
-		System.out.print("생년월일 > ");
-		String birthday = sc.nextLine();
-		System.out.print("아이디 > ");
-		String id = sc.nextLine();
-		System.out.print("비밀번호 > ");
-		String pw = sc.nextLine();
-		System.out.print("별명 > ");
-		String nickName = sc.nextLine();
-		System.out.print("관리자 > ");
-		int manager = Integer.parseInt(sc.nextLine());
-		member.setMemName(name);
-		member.setMemBirthday(birthday);
-		member.setMemId(id);
-		member.setMemPw(pw);
-		member.setMemNickname(nickName);
-		member.setManager(manager);
-		if (mDao.addMem(member)) {
-			System.out.println("회원가입이 완료되었습니다");
-		} else {
-			System.out.println("회원가입이 정상적이지 않습니다.");
-		}
+		return null;
 	}
 
 	// 회원가입 기능
@@ -135,7 +60,7 @@ public class MemberDao {
 			psmt.setString(4, member.getMemPw());
 			psmt.setString(5, member.getMemNickname());
 			psmt.setInt(6, member.getManager());
-			int r = psmt.executeUpdate();	
+			int r = psmt.executeUpdate();
 			if (r > 0) {
 				return true;
 			}
@@ -156,6 +81,7 @@ public class MemberDao {
 		String pw = sc.nextLine();
 		System.out.print("변경된 별명 > ");
 		String nickName = sc.nextLine();
+		Member member = new Member();
 		member.setMemId(id);
 		member.setMemPw(pw);
 		member.setMemName(name);
@@ -198,6 +124,7 @@ public class MemberDao {
 			psmt.setInt(3, manager);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
+				Member member = new Member();
 				member.setMemId(rs.getString("mem_id"));
 				member.setMemPw(rs.getString("mem_pw"));
 				member.setManager(rs.getInt("manager"));
@@ -242,7 +169,7 @@ public class MemberDao {
 	public void findIdPw() {
 		System.out.print("아이디는 1번 패스워드는 2번을 눌러주세요.");
 		int num = Integer.parseInt(sc.nextLine());
-		if(num==1) {
+		if (num == 1) {
 			System.out.print("이름 > ");
 			String name = sc.nextLine();
 			System.out.print("생년월일");
@@ -256,13 +183,13 @@ public class MemberDao {
 				rs = psmt.executeQuery();
 				String id = "";
 				if (rs.next()) {
-					id=rs.getString("mem_id");
-					System.out.println("아이디는 "+id+"입니다.");
+					id = rs.getString("mem_id");
+					System.out.println("아이디는 " + id + "입니다.");
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}else if(num==2) {
+		} else if (num == 2) {
 			System.out.print("아이디 > ");
 			String id = sc.nextLine();
 			System.out.print("이름 > ");
@@ -279,13 +206,13 @@ public class MemberDao {
 				rs = psmt.executeQuery();
 				String pw = "";
 				if (rs.next()) {
-					pw=rs.getString("mem_pw");
-					System.out.println("비밀번호는 "+pw+"입니다.");
+					pw = rs.getString("mem_pw");
+					System.out.println("비밀번호는 " + pw + "입니다.");
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}else {
+		} else {
 			System.out.println("잘못된 입력입니다.");
 		}
 	}

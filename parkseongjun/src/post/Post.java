@@ -1,18 +1,6 @@
 package post;
 
 public class Post {
-	
-	
-	@Override
-	public String toString() {
-		return String.format("%-9d %5s", postNumber,postTitle);
-	}
-	public String toReport() {
-		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n",postTitle,postKind,postContent);
-	}
-	public String toAll() {
-		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n",postTitle,postKind,postContent);
-	}
 	private int memNumber;
 	private int postNumber;
 	private String postTitle;
@@ -20,12 +8,27 @@ public class Post {
 	private String postKind;
 	private int reportHand;
 
+	@Override
+	public String toString() {
+		return String.format("%-9d %5s", postNumber, postTitle);
+	}
+
+	public String toReport() {
+		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n", postTitle, postKind, postContent);
+	}
+
+	public String toAll() {
+		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n", postTitle, postKind, postContent);
+	}
+
 	public int getReportHand() {
 		return reportHand;
 	}
+
 	public void setReportHand(int reportHand) {
 		this.reportHand = reportHand;
 	}
+
 	public int getMemNumber() {
 		return memNumber;
 	}

@@ -27,30 +27,12 @@ public class PostDao {
 		}
 	}
 
-	public void postWrite2() {
-		Post post = new Post();
-		PostDao pDao = new PostDao();
-		System.out.println("글쓰기 메뉴 입니다.");
-		System.out.print("제목 > ");
-		String title = sc.nextLine();
-		System.out.print("카테고리 >");
-		String kind = sc.nextLine();
-		System.out.print("내용 > ");
-		String content = sc.nextLine();
-		post.setPostTitle(title);
-		post.setPostKind(kind);
-		post.setPostContent(content);
-		int set = pDao.postWrite(post);
-		System.out.println("게시글이 저장되었습니다. 게시글 번호 :" + set);
-	}
-
 	// 게시글 쓰기
 	public int postWrite(Post post) {
 		getConn();
 		String sql1 = "select post_seq.nextval from dual";
 		String sql = "insert into post (mem_number,post_number,post_title,post_kind,post_content)"
 				+ " values (?,?,?,?,?)";
-		String sql2 = "select mem_number from member where mem_id = ?";
 		try {
 			psmt = conn.prepareStatement(sql1);
 			rs = psmt.executeQuery();
@@ -58,39 +40,21 @@ public class PostDao {
 			if (rs.next()) {
 				seq = rs.getInt(1);
 			}
-			psmt = conn.prepareStatement(sql2);
-			psmt.setString(1, MemberDao.loginId);
-			ResultSet rs2 = psmt.executeQuery();
-			int memNumber = -1;
-			if (rs2.next()) {
-				memNumber = rs2.getInt("mem_number");
-			}
+
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, memNumber);
+			psmt.setInt(1, post.getMemNumber());
 			psmt.setInt(2, seq);
 			psmt.setString(3, post.getPostTitle());
 			psmt.setString(4, post.getPostKind());
 			psmt.setString(5, post.getPostContent());
 			int r = psmt.executeUpdate();
-			return seq;
+			if (r > 0)
+				return seq;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
-	}
-
-	public void PostDelete2() {
-		PostDao pDao = new PostDao();
-		System.out.print("게시글번호 >> ");
-		int set = Integer.parseInt(sc.nextLine());
-		if (pDao.postDelete(set)) {
-			System.out.println("정상 삭제");
-			return;
-		} else {
-			System.out.println("다른 회원의 게시글을 삭제할수 없습니다.");
-		}
-		return;
 	}
 
 	// 게시글 삭제
@@ -101,7 +65,7 @@ public class PostDao {
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, seq);
-			psmt.setInt(2, MemberDao.loginNo);
+			psmt.setInt(2, member.getMemNumber());
 
 			int r = psmt.executeUpdate();
 			if (r > 0) {
@@ -235,6 +199,7 @@ public class PostDao {
 			}
 		}
 	}
+
 	List<Post> mypost() {
 		getConn();
 		List<Post> list1 = new ArrayList<Post>();
@@ -256,40 +221,19 @@ public class PostDao {
 		}
 		return list1;
 	}
-	
-	public void myPost1() {
-		PostDao pDao = new PostDao();
-		List<Post> posts = pDao.mypost();
-		System.out.println("게시글 번호   게시글 제목");
-		System.out.println("-------------------");
-		for (Post ps : posts) {
-			System.out.println(ps.toString());
-		}
-		System.out.println("게시물을 수정 하실려면 1 나가기는 2 번을 눌러주세요.");
-		System.out.print("입력 > ");
-		int choose = Integer.parseInt(sc.nextLine());
-		if (choose == 1) {
-			pDao.postUpdate();
-		} else {
-			return;
-		}
-	}
 
-	public boolean postUpdate() {
-		System.out.print("수정하실 게시글 번호 > ");
-		int set = Integer.parseInt(sc.nextLine());
-		System.out.print("내용 입력 > ");
-		String content = sc.nextLine();
+	public boolean postUpdate(Post post) {
 		getConn();
+
 		String sql = "update post set post_content = ? where mem_number = ? and post_number = ? ";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, content);
-			psmt.setInt(2, MemberDao.loginNo);
-			psmt.setInt(3, set);
+			psmt.setString(1, post.getPostContent());
+			psmt.setInt(2, post.getMemNumber());
+			psmt.setInt(3, post.getPostNumber());
 			int r = psmt.executeUpdate();
-			if(r > 0) {
-				return  true;
+			if (r > 0) {
+				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
