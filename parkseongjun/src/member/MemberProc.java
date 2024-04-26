@@ -17,9 +17,9 @@ public class MemberProc {
 	public void exe() {
 		boolean run = true;
 		while (run) {
-			System.out.println("---------------------------------------------------------------------");
-			System.out.println("1.로그인 2.회원가입 3.ID찾기 4.PW찾기 5.회원정보 수정 6.종료 7.관리자계정");
-			System.out.println("---------------------------------------------------------------------");
+			System.out.println("-------------------------------------------------");
+			System.out.println("1.로그인 2.회원가입 3.ID찾기 4.PW찾기 5.종료 6.관리자계정");
+			System.out.println("-------------------------------------------------");
 			System.out.print("입력 > ");
 			int choose = 0;
 			try {
@@ -41,13 +41,10 @@ public class MemberProc {
 				findPw();
 				break;
 			case 5:
-				reMem2();
-				break;
-			case 6:
 				System.out.println("프로그램을 종료합니다");
 				run = false;
 				break;
-			case 7:
+			case 6:
 				ma.sys();
 				break;
 
@@ -87,7 +84,7 @@ public class MemberProc {
 		System.out.print("이름 > ");
 		String name = sc.nextLine();
 		while(run1) {
-		System.out.print("생년월일 > ");
+		System.out.print("생년월일(YY-MM-dd형식으로 입력해주세요.) > ");
 		birthday = sc.nextLine();
 		if (Pattern.matches("^[0-9-\\.]+-[0-9-\\.]+\\-[0-9-\\.]+$$",birthday )) {
 			run1 = false;
@@ -97,7 +94,7 @@ public class MemberProc {
 		}
 		}
 		while(run) {
-		System.out.print("아이디 > ");
+		System.out.print("아이디(이메일 형식으로 입력해주세요.) > ");
 		id = sc.nextLine();
 		if (Pattern.matches("^[_a-zA-Z0-9-\\.]+@[_a-zA-Z0-9-\\.]+\\.[_a-zA-Z0-9-\\.]+$$", id)) {	
 			run = false;
@@ -186,7 +183,7 @@ public class MemberProc {
 				System.out.println("수정이 완료되었습니다");
 				break;
 			} else {
-				System.out.println("계정이 존재 하지 않습니다.");
+				System.out.println("아이디를 확인해주세요.");
 				continue;
 			}
 		}

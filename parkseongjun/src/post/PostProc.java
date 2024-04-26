@@ -3,13 +3,18 @@ package post;
 import java.util.List;
 import java.util.Scanner;
 
-import reply.*;
+import member.MemberProc;
+import reply.Reply;
+import reply.ReplyDao;
+import reply.ReplyProc;
+import report.Report;
 import report.ReportDao;
 
 public class PostProc {
 	int logid;
 	Scanner sc = new Scanner(System.in);
 	PostDao pDao = new PostDao();
+	
 
 	public PostProc(int logid) {
 		this.logid = logid;
@@ -18,9 +23,9 @@ public class PostProc {
 	public void exe() {
 		boolean run = true;
 		while (run) {
-			System.out.println("---------------------------------------------------");
-			System.out.println("1.게시글쓰기 2.게시글삭제 3.나의 게시글 4.게시글목록 5.로그아웃");
-			System.out.println("---------------------------------------------------");
+			System.out.println("---------------------------------------------------------------");
+			System.out.println("1.게시글쓰기 2.게시글삭제 3.나의 게시글 4.게시글목록 5.회원정보 수정6.로그아웃");
+			System.out.println("---------------------------------------------------------------");
 			System.out.print("입력 > ");
 			int choose = 0;
 			try {
@@ -41,7 +46,11 @@ public class PostProc {
 			case 4:
 				post2();
 				break;
-			case 5:
+			case 5 :
+				MemberProc mp = new MemberProc();
+				mp.reMem2();
+				break;
+			case 6:
 				System.out.println("로그아웃합니다");
 				run = false;
 				break;
@@ -169,7 +178,11 @@ public class PostProc {
 		System.out.println("게시물을 신고하시려면 report 를 입력해주세요.");
 		String report = sc.nextLine();
 		if (report.equals("report")) {
-			if (tDao.report()) {
+			Post post = new Post();
+			System.out.print("신고 사유(30자 이내) > ");
+			PostDao.reason = sc.nextLine();
+			post.setReportWrite(PostDao.reason);
+			if (tDao.report(PostDao.reason)) {
 				System.out.println("신고 완료");
 			} else {
 				System.out.println("신고가 되지않습니다.");

@@ -15,7 +15,7 @@ public class PostDao {
 	Post post = new Post();
 	Scanner sc = new Scanner(System.in);
 	public static int writeNo;
-
+	public static String reason ;
 	private void getConn() {
 		String url = "jdbc:oracle:thin:@192.168.0.21:1521:xe";
 		try {
@@ -103,9 +103,7 @@ public class PostDao {
 	List<Post> conten(int num) {
 		getConn();
 		List<Post> list = new ArrayList<Post>();
-
-		
-		String sql = "select post_title,post_kind,post_content from post where post_number = ?";
+		String sql = "select post_title,post_kind,post_content, report_write from post where post_number = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, num);

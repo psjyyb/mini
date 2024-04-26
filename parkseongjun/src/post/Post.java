@@ -7,6 +7,16 @@ public class Post {
 	private String postContent;
 	private String postKind;
 	private int reportHand;
+	private String reportWrite;
+	
+
+	public String getReportWrite() {
+		return reportWrite;
+	}
+
+	public void setReportWrite(String reportWrite) {
+		this.reportWrite = reportWrite;
+	}
 
 	@Override
 	public String toString() {
@@ -14,7 +24,7 @@ public class Post {
 	}
 
 	public String toReport() {
-		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n", postTitle, postKind, postContent);
+		return String.format("제목   : %4s \n카테고리 : %5s\n내용   : %4s\n신고사유  :%5s\n", postTitle, postKind, postContent,reportWrite);
 	}
 
 	public String toAll() {

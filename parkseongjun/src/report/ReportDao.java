@@ -1,10 +1,17 @@
 package report;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import post.Post;
 import post.PostDao;
+import post.PostProc;
 
 public class ReportDao {
 	Connection conn;
@@ -24,13 +31,17 @@ public class ReportDao {
 			return;
 		}
 	}
-
-	public boolean report() {
+	// 신고
+	public boolean report(String post) {
 		getConn();
-		String sql = "update post set report_hand = 1 where post_number = ?";
+		String sql = "update post set report_hand = 1,report_write = ? where post_number = ?";
 		try {
+			
+			
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, PostDao.writeNo);
+			psmt.setInt(2, PostDao.writeNo);
+			psmt.setString(1,post);
+			
 			int r = psmt.executeUpdate();
 			if (r > 0) {
 				return true;
@@ -61,12 +72,12 @@ public class ReportDao {
 		return list;
 	}
 
-	// 신고 받은 게시물 상세보
+	// 신고 받은 게시물 상세보기
 	List<Post> recon() {
 		getConn();
 		List<Post> list = new ArrayList<Post>();
 		ReportProc rp = new ReportProc();
-		String sql = "select post_title,post_content from post where post_number = ?";
+		String sql = "select post_title,post_content,post_kind ,report_write from post where post_number = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, rp.num);
@@ -75,6 +86,10 @@ public class ReportDao {
 				Post post = new Post();
 				post.setPostTitle(rs.getString("post_title"));
 				post.setPostContent(rs.getString("post_content"));
+				post.setPostKind(rs.getString("post_kind"));
+				post.setReportWrite(rs.getString("report_write"));
+				
+				
 				list.add(post);
 			}
 		} catch (SQLException e) {

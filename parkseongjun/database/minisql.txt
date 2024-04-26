@@ -1,0 +1,44 @@
+create table member(
+ mem_number number(5) primary key,
+ mem_name  varchar2(20) not null,
+ mem_birthday varchar2(20)not null,
+ mem_id varchar2(35) not null,
+ mem_pw varchar2(20) not null,
+ mem_nickname  varchar2(30)
+ );
+
+ create sequence member_seq;
+
+create table post (
+ mem_number number(5),
+ post_number number(5) primary key,
+ post_title varchar2(30) not null,
+ post_content varchar(1500) not null,
+ post_kind varchar2(30)
+ report_hand number(5) default 0
+);
+
+create table reply(
+ post_number number(5),
+ reply_number number(5) primary key,
+ reply_write varchar2(100) not null,
+ mem_number number(5) not null,
+ );
+
+ create sequence reply_seq;
+
+
+create table report(
+ post_number number(5),
+ report_number number(5) primary key,
+ report_title varchar2(30) not null,
+ report_write varchar2(100) not null,
+ mem_id varchar2(20) not null,
+ report_hand number(5) not null
+ );
+
+create table good (
+mem_number number(10) not null,
+post_number number(10)not null,
+good_count  number(10) default 0
+);
