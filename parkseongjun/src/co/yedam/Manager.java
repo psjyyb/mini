@@ -20,7 +20,9 @@ public class Manager {
 		System.out.print("비밀번호  > ");
 		String pw = sc.nextLine();
 		System.out.print("관리자 코드 > ");
-		int manager = Integer.parseInt(sc.nextLine());
+		int manager = 0;
+		try {
+		manager = Integer.parseInt(sc.nextLine());
 		if (mDao.system(id, pw, manager)) {
 			boolean run = true;
 			System.out.println("관리자 계정에 로그인 되었습니다.");
@@ -44,11 +46,14 @@ public class Manager {
 				case 3:
 					run = false;
 					break;
-				
+					
 				}
 			}
 		} else {
 			System.out.println("관리자가 아닙니다");
+		}
+		}catch(NumberFormatException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }

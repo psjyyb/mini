@@ -16,7 +16,7 @@ public class ReplyDao {
 	Reply reply = new Reply();
 	
 	private void getConn() {
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String url = "jdbc:oracle:thin:@192.168.0.21:1521:xe";
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(url, "psj", "yyb");

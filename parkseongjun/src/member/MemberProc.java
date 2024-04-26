@@ -1,6 +1,7 @@
 package member;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import co.yedam.Manager;
 import post.PostDao;
@@ -17,7 +18,7 @@ public class MemberProc {
 		boolean run = true;
 		while (run) {
 			System.out.println("---------------------------------------------------------------------");
-			System.out.println("1.로그인 2.회원가입 3.ID찾기 4.PW찾기 5.회원정보 수정 6.종료및로그아웃 7.관리자계정");
+			System.out.println("1.로그인 2.회원가입 3.ID찾기 4.PW찾기 5.회원정보 수정 6.종료 7.관리자계정");
 			System.out.println("---------------------------------------------------------------------");
 			System.out.print("입력 > ");
 			int choose = 0;
@@ -78,19 +79,38 @@ public class MemberProc {
 
 	// 회원가입
 	public void addMem2() {
-
+		String id = null;
+		String birthday  = null;
+		boolean run = true;
+		boolean run1 = true;
 		System.out.println("회원가입 메뉴입니다");
 		System.out.print("이름 > ");
 		String name = sc.nextLine();
+		while(run1) {
 		System.out.print("생년월일 > ");
-		String birthday = sc.nextLine();
+		birthday = sc.nextLine();
+		if (Pattern.matches("^[0-9-\\.]+-[0-9-\\.]+\\-[0-9-\\.]+$$",birthday )) {
+			run1 = false;
+		}else {
+			System.out.println("생년월일은 YY-MM-DD 형식입니다.");
+			run1 = true;
+		}
+		}
+		while(run) {
 		System.out.print("아이디 > ");
-		String id = sc.nextLine();
+		id = sc.nextLine();
+		if (Pattern.matches("^[_a-zA-Z0-9-\\.]+@[_a-zA-Z0-9-\\.]+\\.[_a-zA-Z0-9-\\.]+$$", id)) {	
+			run = false;
+		}else {
+			System.out.println("ID는 이메일 형식입니다.");
+			run = true;
+		}
+		}
 		System.out.print("비밀번호 > ");
 		String pw = sc.nextLine();
 		System.out.print("별명 > ");
 		String nickName = sc.nextLine();
-
+		
 		Member member = new Member();
 		member.setMemName(name);
 		member.setMemBirthday(birthday);

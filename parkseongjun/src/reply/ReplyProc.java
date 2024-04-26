@@ -28,9 +28,14 @@ public class ReplyProc {
 		}
 		ReplyDao rDao = new ReplyDao();
 		System.out.print("댓글번호 >>");
-		int set = Integer.parseInt(sc.nextLine());
+		int set = 0;
+		try {
+		set = Integer.parseInt(sc.nextLine());
 		if (rDao.deleteReply(set)) {
 			return true;
+		}
+		}catch(NumberFormatException e) {
+			System.out.println(e.getMessage());
 		}
 		return false;
 	}

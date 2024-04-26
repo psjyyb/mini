@@ -17,7 +17,7 @@ public class PostDao {
 	public static int writeNo;
 
 	private void getConn() {
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String url = "jdbc:oracle:thin:@192.168.0.21:1521:xe";
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(url, "psj", "yyb");
@@ -100,12 +100,11 @@ public class PostDao {
 	}
 	
 	// 게시물 상세보기
-	List<Post> conten() {
+	List<Post> conten(int num) {
 		getConn();
 		List<Post> list = new ArrayList<Post>();
 
-		System.out.print("열람 하실 게시물의 번호를 입력해주세요 > ");
-		int num = Integer.parseInt(sc.nextLine());
+		
 		String sql = "select post_title,post_kind,post_content from post where post_number = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
