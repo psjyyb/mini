@@ -18,6 +18,7 @@ public class ReplyProc {
 		if (rDao.addReply(reply.getReplyWrite())) {
 			return true;
 		}
+		
 		return false;
 	}
 	// 댓글 삭제
@@ -37,6 +38,7 @@ public class ReplyProc {
 		}catch(NumberFormatException e) {
 			System.out.println(e.getMessage());
 		}
+		
 		return false;
 	}
 }

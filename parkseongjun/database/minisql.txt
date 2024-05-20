@@ -4,7 +4,8 @@ create table member(
  mem_birthday varchar2(20)not null,
  mem_id varchar2(35) not null,
  mem_pw varchar2(20) not null,
- mem_nickname  varchar2(30)
+ mem_nickname  varchar2(30),
+ manager number(3) default 0
  );
 
  create sequence member_seq;
@@ -16,6 +17,7 @@ create table post (
  post_content varchar(1500) not null,
  post_kind varchar2(30)
  report_hand number(5) default 0
+ report_write varchar2(30) default '없음'
 );
 
 create table reply(
@@ -27,15 +29,6 @@ create table reply(
 
  create sequence reply_seq;
 
-
-create table report(
- post_number number(5),
- report_number number(5) primary key,
- report_title varchar2(30) not null,
- report_write varchar2(100) not null,
- mem_id varchar2(20) not null,
- report_hand number(5) not null
- );
 
 create table good (
 mem_number number(10) not null,

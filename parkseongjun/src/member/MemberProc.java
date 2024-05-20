@@ -50,6 +50,7 @@ public class MemberProc {
 
 			}
 		}
+		
 	} // end of while.
 
 	// 로그인
@@ -72,6 +73,7 @@ public class MemberProc {
 		System.out.println("로그인 되었습니다.");
 		PostProc proc = new PostProc(logMem.getMemNumber());
 		proc.exe();
+	
 	}
 
 	// 회원가입
@@ -120,6 +122,7 @@ public class MemberProc {
 		} else {
 			System.out.println("회원가입이 정상적이지 않습니다.");
 		}
+		
 	}
 
 	// Id 찾기

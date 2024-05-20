@@ -122,11 +122,10 @@ public class MemberDao {
 				Member member = new Member();
 				member.setMemNumber(rs.getInt("mem_number"));
 				member.setMemName(rs.getString("mem_name"));
-				member.setMemName(rs.getString("mem_birthday"));
-				member.setMemName(rs.getString("mem_id"));
-				member.setMemName(rs.getString("mem_pw"));
-				member.setMemName(rs.getString("mem_nickname"));
-
+				member.setMemBirthday(rs.getString("mem_birthday"));
+				member.setMemId(rs.getString("mem_id"));
+				member.setMemPw(rs.getString("mem_pw"));
+				member.setMemNickname(rs.getString("mem_nickname"));
 				list.add(member);
 			}
 		} catch (SQLException e) {
